@@ -1,4 +1,4 @@
-# lara-docker
+# prepare-environment-with-docker
 it's just configuration environment using docker for laravel applications
 
 what is the problem I have faces during prepare this configuratrion :
