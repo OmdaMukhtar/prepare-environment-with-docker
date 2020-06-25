@@ -11,6 +11,7 @@ services:
             - "8088:80"
         volumes: 
             - ./src:/var/www/html
+            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
         depends_on:
             - php
             - mysql
@@ -22,15 +23,15 @@ services:
         restart: unless-stopped
         tty: true
         ports: 
-            - "3306:3306"
+            - "8806:3306"
         volumes: 
             - ./mysql:/var/lib/mysql
         environment: 
             MYSQL_DATABASE: laravel
-            MYSQL_USER: root
-            MYSQL_PASSWORD:
-            MYSQL_ROOT_PASSWORD:
-            SERVICE_TAG: dev
+            MYSQL_USER: laravel
+            MYSQL_PASSWORD: secret
+            MYSQL_ROOT_PASSWORD: secret
+            SERVICE_TAGS: dev
             SERVICE_NAME: mysql
 
         networks:
@@ -42,7 +43,6 @@ services:
         container_name: php
         volumes: 
             - ./src:/var/www/html
-            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
         ports: 
             - "9000:9000"
 
