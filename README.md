@@ -7,15 +7,84 @@ into the builder of php service.
 - the `docker-compose build && docker-compose up -d` is not work because need a persmision `sudo`
 - the docker is not build the container because need a proxy 
 
+## List of container we have
+- nginx
+- php
+- mysql
+
+# Requirement to use docker in development
+- you must install docker in your machin
+- create docker-compose file in the root of your porject it's the most important file it's contians all the container
+- create Dcokerfile(also within the root of you project) to install the programming language you will use latter
+
+## Sturcutre of `docker-compose` file
+```yml
+version: '3'
+
+networks:
+    laravel:
+
+services:
+    nginx:
+        image: nginx:stable-alpine
+        container_name: nginx
+        ports:
+            - "8088:80"
+        volumes: 
+            - ./src:/var/www/html
+            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+        depends_on:
+            - php
+            - mysql
+        networks:
+            - laravel
+    mysql:
+        image: mysql:5.7.22
+        container_name: mysql
+        restart: unless-stopped
+        tty: true
+        ports: 
+            - "8806:3306"
+        volumes: 
+            - ./mysql:/var/lib/mysql
+        environment: 
+            MYSQL_DATABASE: laravel
+            MYSQL_USER: laravel
+            MYSQL_PASSWORD: secret
+            MYSQL_ROOT_PASSWORD: secret
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+
+        networks:
+            - laravel
+    php:
+        build: 
+            context: .
+            dockerfile: Dockerfile
+        container_name: php
+        volumes: 
+            - ./src:/var/www/html
+        ports: 
+            - "9000:9000"
+
+        networks:
+            - laravel
+```
+
+## Sturcutre of `Dockerfile` 
+```yml
+FROM php:7.2-fpm-alpine
+
+RUN docker-php-ext-install pdo pdo_mysql
+```
+
 ## Installation
 - first download docker for your machin
-- `docker-compose build && docker-compose up -d`
-
+- in you terminal inside your root project do `docker-compose build && docker-compose up -d`
 
 ## api documentaion
-
 ```
-GET 127.0.0.1:8088/api/apiTest HTTP/1.1
+GET /api/apiTest HTTP/1.1
 Host: 127.0.0.1:8088
 Content-Type: application/json
 ```
@@ -57,3 +126,5 @@ Body
   }
 ]
 ```
+
+### That is all, :) challengs done!
