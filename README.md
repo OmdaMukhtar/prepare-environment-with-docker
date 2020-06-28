@@ -1,7 +1,7 @@
 # prepare-environment-with-docker
 it's just configuration environment using docker for laravel applications
 
-what is the problem I have faces during prepare this configuratrion :
+## What is the problem I have faces during prepare those configuratrion :
 - sturcutre of the yaml file I put the `ports, container_nam, volumens`
 into the builder of php service.
 - the `docker-compose build && docker-compose up -d` is not work because need a persmision `sudo`
