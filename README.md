@@ -82,6 +82,12 @@ RUN docker-php-ext-install pdo pdo_mysql
 - first download docker for your machin
 - in you terminal inside your root project do `docker-compose build && docker-compose up -d`
 
+## Important instruction
+* rebuild spesific container
+  - `docker-compose up --detach --build your_container_name`
+* list of all running container
+  - `docker ps`
+  
 ## api documentaion
 ```
 GET /api/apiTest HTTP/1.1
